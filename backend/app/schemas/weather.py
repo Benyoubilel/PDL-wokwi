@@ -135,3 +135,21 @@ class PredictionResponse(BaseModel):
     confidence: str        # HIGH / MEDIUM / LOW / INSUFFICIENT_DATA
     generated_at: datetime
     message: str
+
+
+class DashboardResponse(BaseModel):
+    station_id: str
+    latitude: Optional[float]
+    longitude: Optional[float]
+    generated_at: datetime
+    latest: WeatherResponse
+    summary: StatsSummary
+    alerts: AlertsResponse
+    predictions: PredictionResponse
+
+class StationInfo(BaseModel):
+    station_id: str
+    latitude: Optional[float]
+    longitude: Optional[float]
+    last_seen: Optional[datetime]
+    record_count: int

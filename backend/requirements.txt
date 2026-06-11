@@ -11,3 +11,5 @@ plotly
 requests
 scikit-learn 
 numpy
+folium 
+streamlit-folium
