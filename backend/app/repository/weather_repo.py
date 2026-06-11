@@ -22,7 +22,9 @@ class WeatherRepository:
             light_raw=data.light_raw,
             light_percent=data.light_percent,
             heat_index=data.heat_index,
-            dew_point=data.dew_point
+            dew_point=data.dew_point,
+            latitude=data.latitude,
+            longitude=data.longitude
         )
 
         db.add(weather)
@@ -53,7 +55,7 @@ class WeatherRepository:
     @staticmethod
     def get_summary(db):
 
-        result = db.query(
+        return db.query(
             func.count(Weather.id).label("total_records"),
 
             func.min(Weather.temperature).label("temp_min"),
@@ -72,14 +74,12 @@ class WeatherRepository:
             func.round(func.avg(Weather.dew_point).cast(Numeric), 2).label("dew_point_avg"),
         ).first()
 
-        return result
-
     @staticmethod
     def get_daily_stats(db, days: int = 7):
 
         since = datetime.now(timezone.utc) - timedelta(days=days)
 
-        results = db.query(
+        return db.query(
             cast(Weather.created_at, Date).label("day"),
 
             func.min(Weather.temperature).label("temp_min"),
@@ -101,14 +101,12 @@ class WeatherRepository:
             cast(Weather.created_at, Date).desc()
         ).all()
 
-        return results
-
     @staticmethod
     def get_hourly_stats(db, hours: int = 24):
 
         since = datetime.now(timezone.utc) - timedelta(hours=hours)
 
-        results = db.query(
+        return db.query(
             func.date_trunc("hour", Weather.created_at).label("hour"),
 
             func.round(func.avg(Weather.temperature).cast(Numeric), 2).label("temp_avg"),
@@ -123,5 +121,3 @@ class WeatherRepository:
         ).order_by(
             func.date_trunc("hour", Weather.created_at).desc()
         ).all()
-
-        return results

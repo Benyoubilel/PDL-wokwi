@@ -29,6 +29,8 @@ class WeatherCreate(BaseModel):
     heat_index: float
 
     dew_point: float
+    latitude:  Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class WeatherResponse(BaseModel):
@@ -48,7 +50,9 @@ class WeatherResponse(BaseModel):
 
     dew_point: float
 
-    created_at: Optional[datetime] = None 
+    created_at: Optional[datetime] = None
+    latitude:  Optional[float] = None
+    longitude: Optional[float] = None 
 
     model_config = {
         "from_attributes": True
@@ -127,5 +131,7 @@ class PredictionResponse(BaseModel):
     predictions: List[PredictionPoint]
     model: str
     based_on_records: int
+    model_score: float
+    confidence: str        # HIGH / MEDIUM / LOW / INSUFFICIENT_DATA
     generated_at: datetime
     message: str
