@@ -5,3 +5,9 @@ pydantic
 pydantic-settings
 python-dotenv
 psycopg2-binary
+streamlit 
+pandas 
+plotly 
+requests
+scikit-learn 
+numpy
